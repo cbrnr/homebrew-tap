@@ -69,7 +69,7 @@ class Quarto < Formula
     setup_build_environment
 
     # Other dependencies pull in openssl@4, which pkg-config would find first.
-    ENV["OPENSSL_DIR"] = Formula["openssl@3"].opt_prefix if OS.linux?
+    ENV["OPENSSL_DIR"] = formula_opt_prefix("openssl@3") if OS.linux?
 
     typst_gather_prefix = buildpath/"typst-gather-prefix"
     resource("typst-gather").stage do
