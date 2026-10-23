@@ -21,6 +21,12 @@ class Quarto < Formula
   depends_on "pandoc"
   depends_on "typst"
 
+  on_linux do
+    # typst-gather links OpenSSL through `openssl-sys` (macOS uses Security.framework).
+    depends_on "pkgconf" => :build
+    depends_on "openssl@4"
+  end
+
   # Keep in sync with `TYPST_GATHER` in the `configuration` file.
   resource "typst-gather" do
     url "https://github.com/quarto-dev/typst-gather/archive/refs/tags/v0.2.3.tar.gz"
