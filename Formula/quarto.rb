@@ -4,6 +4,7 @@ class Quarto < Formula
   url "https://github.com/quarto-dev/quarto-cli/archive/refs/tags/v1.10.19.tar.gz"
   sha256 "99bd1aaaf1fc81dfe40185918994eaa35e30643d0059bec91b9fd47b2c3d5d6e"
   license "MIT"
+  revision 1
 
   # Upstream tags prereleases (e.g. v1.11.x) without a suffix, so only
   # consider the release marked as latest on GitHub.
@@ -89,6 +90,8 @@ class Quarto < Formula
     system "bash", "package/src/quarto-bld", "make-installer-dir", "--set-version", version.to_s
 
     libexec.install (buildpath/"homebrew-dist").children
+    # `prepare-dist` leaves this empty when binaries aren't vendored.
+    (libexec/"bin/tools").rmdir
     (libexec/"bin").install typst_gather_prefix/"bin/typst-gather"
 
     # The VS Code extension adds the first path reported by `quarto --paths`
@@ -138,15 +141,33 @@ class Quarto < Formula
   test do
     assert_equal version.to_s, shell_output("#{bin}/quarto --version").strip
 
+    # The cross-reference and callout exercise Quarto's Lua filters, which can
+    # break when Homebrew's Pandoc is newer than the version Quarto pins.
     (testpath/"test.qmd").write <<~MARKDOWN
       ---
       title: Homebrew test
       ---
 
-      Quarto rendered this document.
+      See @tbl-numbers.
+
+      | A | B |
+      |---|---|
+      | 1 | 2 |
+
+      : Numbers {#tbl-numbers}
+
+      ::: {.callout-note}
+      Quarto rendered this callout.
+      :::
     MARKDOWN
 
     system bin/"quarto", "render", "test.qmd", "--to", "html"
-    assert_path_exists testpath/"test.html"
+    html = (testpath/"test.html").read
+    assert_match "href=\"#tbl-numbers\"", html
+    assert_match "Table&nbsp;1", html
+    assert_match "callout-note", html
+
+    system bin/"quarto", "render", "test.qmd", "--to", "typst"
+    assert_path_exists testpath/"test.pdf"
   end
 end
