@@ -23,8 +23,9 @@ class Quarto < Formula
 
   on_linux do
     # typst-gather links OpenSSL through `openssl-sys` (macOS uses Security.framework).
+    # The locked openssl-sys 0.9.111 doesn't support OpenSSL 4.
     depends_on "pkgconf" => :build
-    depends_on "openssl@4"
+    depends_on "openssl@3"
   end
 
   # Keep in sync with `TYPST_GATHER` in the `configuration` file.
