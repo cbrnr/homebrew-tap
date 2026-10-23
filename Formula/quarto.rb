@@ -24,7 +24,6 @@ class Quarto < Formula
   on_linux do
     # typst-gather links OpenSSL through `openssl-sys` (macOS uses Security.framework).
     # The locked openssl-sys 0.9.111 doesn't support OpenSSL 4.
-    depends_on "pkgconf" => :build
     depends_on "openssl@3"
   end
 
@@ -68,6 +67,9 @@ class Quarto < Formula
 
   def install
     setup_build_environment
+
+    # Other dependencies pull in openssl@4, which pkg-config would find first.
+    ENV["OPENSSL_DIR"] = Formula["openssl@3"].opt_prefix if OS.linux?
 
     typst_gather_prefix = buildpath/"typst-gather-prefix"
     resource("typst-gather").stage do
