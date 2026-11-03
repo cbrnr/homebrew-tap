@@ -13,9 +13,9 @@ class Quarto < Formula
   end
 
   bottle do
-    root_url "https://github.com/cbrnr/homebrew-tap/releases/download/quarto-1.10.19_1"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe:  "6c4d1b4facca8bf76cbebf168e9f820f34ccf109c788eabf3497f79438b80738"
-    sha256 cellar: :any,                 x86_64_linux: "c84f3489754203f92f1b438e7049dc8c0879beb968c059d383e3342fcb2e2a13"
+    root_url "https://github.com/cbrnr/homebrew-tap/releases/download/quarto-1.10.20"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:  "d5eba20ef5dfe39bd2072975cb56744525e91549728fe6663cf3c3daeaa86bb7"
+    sha256 cellar: :any,                 x86_64_linux: "1fe2d6bd4f77e1b5f4965899de6b9bce927c6c74452909583450828a5def7543"
   end
 
   depends_on "node" => :build
