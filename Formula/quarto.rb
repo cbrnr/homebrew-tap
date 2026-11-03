@@ -1,10 +1,9 @@
 class Quarto < Formula
   desc "Scientific and technical publishing system built on Pandoc"
   homepage "https://quarto.org/"
-  url "https://github.com/quarto-dev/quarto-cli/archive/refs/tags/v1.10.19.tar.gz"
-  sha256 "99bd1aaaf1fc81dfe40185918994eaa35e30643d0059bec91b9fd47b2c3d5d6e"
+  url "https://github.com/quarto-dev/quarto-cli/archive/refs/tags/v1.10.20.tar.gz"
+  sha256 "9802d64d456efcc550298d73d195d91879a868508120d1963561d05ccf076845"
   license "MIT"
-  revision 1
 
   # Upstream tags prereleases (e.g. v1.11.x) without a suffix, so only
   # consider the release marked as latest on GitHub.
